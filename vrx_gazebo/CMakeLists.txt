@@ -7,6 +7,8 @@ if(NOT ERB_EXE_PATH)
   message(FATAL_ERROR "Could not find the `erb` tool.  Try `sudo apt-get install ruby`")
 endif()
 
+add_compile_options(-std=c++17)
+
 # For Qt
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
@@ -123,6 +125,20 @@ install(TARGETS placard_plugin
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
+# Plugin for controlling the ball shooter.
+add_library(ball_shooter_plugin src/ball_shooter_plugin.cc)
+target_link_libraries(placard_plugin
+  ${catkin_LIBRARIES}
+)
+add_dependencies(ball_shooter_plugin
+  ${catkin_EXPORTED_TARGETS}
+)
+install(TARGETS ball_shooter_plugin
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
 # A generic scoring plugin.
 add_library(scoring_plugin src/scoring_plugin.cc)
 target_link_libraries(scoring_plugin
@@ -172,6 +188,19 @@ target_link_libraries(wayfinding_scoring_plugin
   waypoint_markers)
 add_dependencies(wayfinding_scoring_plugin ${catkin_EXPORTED_TARGETS})
 install(TARGETS wayfinding_scoring_plugin
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+# Plugin for scoring gymkhana task
+add_library(gymkhana_scoring_plugin src/gymkhana_scoring_plugin.cc)
+target_link_libraries(gymkhana_scoring_plugin
+  ${catkin_LIBRARIES}
+  scoring_plugin
+)
+
+install(TARGETS gymkhana_scoring_plugin
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -292,6 +321,7 @@ endif()
 xacro_add_files(
   worlds/example_course.world.xacro
   worlds/example_course_2019.world.xacro
+  worlds/gymkhana.world.xacro
   worlds/navigation_task.world.xacro
   worlds/perception_task.world.xacro
   worlds/sandisland.world.xacro
@@ -346,6 +376,8 @@ endif()
 
 # Python Scripts
 catkin_install_python(PROGRAMS
+    nodes/pinger_visualization.py
+    nodes/set_pinger_position.py
     nodes/twist2thrust.py
     nodes/key2thrust_angle.py
     scripts/generate_worlds.py
