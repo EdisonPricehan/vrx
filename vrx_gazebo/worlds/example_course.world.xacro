@@ -8,6 +8,9 @@
     <xacro:include filename="$(find wave_gazebo)/world_models/ocean_waves/model.xacro"/>
     <xacro:ocean_waves scale="2.5"/>
 
+    <!-- rotor sensors -->
+    <plugin name="ros_interface_plugin" filename="librotors_gazebo_ros_interface_plugin.so" />
+
     <xacro:include filename="$(find vrx_gazebo)/worlds/xacros/usv_wind_plugin.xacro"/>
     <xacro:usv_wind_gazebo>
       <wind_objs>
