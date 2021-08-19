@@ -75,7 +75,15 @@
               -R $(arg R) -P $(arg P) -Y $(arg Y)
               --urdf $(arg urdf) --model wamv"/>
 
-  <include file="$(find rotors_gazebo)/launch/mav_with_vi_sensor_waypoint_publisher.launch" />
+  <!-- Spawn rotor and waypoints publisher -->
+  <include file="$(find rotors_gazebo)/launch/mav_with_vi_sensor_waypoint_publisher.launch">
+    <arg name="x" value="$(arg x)" />
+    <arg name="y" value="$(arg y)" />
+    <arg name="z" value="$(eval (z) + 1.5)" />
+    <arg name="R" value="$(arg R)" />
+    <arg name="P" value="$(arg P)" />
+    <arg name="Y" value="$(arg Y)" />
+  </include>
 
 </launch>
 
