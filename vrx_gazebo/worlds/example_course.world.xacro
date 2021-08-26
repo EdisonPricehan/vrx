@@ -6,7 +6,7 @@
     <xacro:sydneyregatta />
     <!--Waves-->
     <xacro:include filename="$(find wave_gazebo)/world_models/ocean_waves/model.xacro"/>
-    <xacro:ocean_waves scale="2.5"/>
+    <xacro:ocean_waves scale="1"/>
 
     <!-- rotor sensors -->
     <plugin name="ros_interface_plugin" filename="librotors_gazebo_ros_interface_plugin.so" />
