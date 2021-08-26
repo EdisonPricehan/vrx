@@ -8,6 +8,7 @@
         <geometry>
           <mesh>
             <uri>file://sydney_regatta/meshes/sydney_regatta.dae</uri>
+            <scale> 0.2 0.2 0.2 </scale>
             <submesh>
               <name>Terrain</name>
             </submesh>
@@ -18,6 +19,7 @@
         <geometry>
           <mesh>
             <uri>file://sydney_regatta/meshes/sydney_regatta.dae</uri>
+            <scale> 0.2 0.2 0.2 </scale>
             <submesh>
               <name>ConcreteDark</name>
             </submesh>
@@ -28,6 +30,7 @@
         <geometry>
           <mesh>
             <uri>file://sydney_regatta/meshes/sydney_regatta.dae</uri>
+            <scale> 0.2 0.2 0.2 </scale>
             <submesh>
               <name>DockDark</name>
             </submesh>
@@ -38,6 +41,7 @@
         <geometry>
           <mesh>
             <uri>file://sydney_regatta/meshes/sydney_regatta.dae</uri>
+            <scale> 0.2 0.2 0.2 </scale>
             <submesh>
               <name>MetalGalvanized</name>
             </submesh>
@@ -48,6 +52,7 @@
         <geometry>
           <mesh>
             <uri>file://sydney_regatta/meshes/sydney_regatta.dae</uri>
+            <scale> 0.2 0.2 0.2 </scale>
             <submesh>
               <name>Dock</name>
             </submesh>
@@ -58,6 +63,7 @@
         <geometry>
           <mesh>
             <uri>file://sydney_regatta/meshes/sydney_regatta.dae</uri>
+            <scale> 0.2 0.2 0.2 </scale>
             <submesh>
               <name>Windows_Dark</name>
             </submesh>
@@ -68,6 +74,7 @@
         <geometry>
           <mesh>
             <uri>file://sydney_regatta/meshes/sydney_regatta.dae</uri>
+            <scale> 0.2 0.2 0.2 </scale>
             <submesh>
               <name>RoofCorrugated</name>
             </submesh>
@@ -78,6 +85,7 @@
         <geometry>
           <mesh>
             <uri>file://sydney_regatta/meshes/sydney_regatta.dae</uri>
+            <scale> 0.2 0.2 0.2 </scale>
             <submesh>
               <name>Wall</name>
             </submesh>
@@ -88,12 +96,14 @@
         <geometry>
           <mesh>
             <uri>model://sydney_regatta/meshes/sydney_regatta.dae</uri>
+            <scale> 0.2 0.2 0.2 </scale>
             <submesh>
               <name>TreeDiffuse</name>
             </submesh>
           </mesh>
         </geometry>
         <material>
+        <scale> 0.2 0.2 0.2 </scale>
           <script>
             <uri>model://sydney_regatta/materials/scripts/</uri>
             <uri>model://sydney_regatta/materials/textures/</uri>
@@ -105,6 +115,7 @@
         <geometry>
           <mesh>
             <uri>file://sydney_regatta/meshes/sydney_regatta.dae</uri>
+            <scale> 0.2 0.2 0.2 </scale>
           </mesh>
         </geometry>
       </collision>
