@@ -14,7 +14,7 @@
   <!-- Do we lock the vessel to the world? -->
   <arg name="wamv_locked" default="false" />
   <!-- Start paused? -->
-  <arg name="paused" default="true"/>
+  <arg name="paused" default="false"/>
   <!-- Initial USV location and attitude-->
   <arg name="x" default="0" />
   <arg name="y" default="8" />
@@ -66,7 +66,7 @@
 
   <!-- Spawn rotor and waypoints publisher -->
   <include file="$(find rotors_gazebo)/launch/mav_with_vi_sensor_waypoint_publisher.launch">
-        <arg name="x" value="$(eval (x) - 0.8)" /> <!-- let rotor reside near center_x of boat -->
+        <arg name="x" value="$(eval (x) - 0.35)" /> <!-- let rotor reside near center_x of boat -->
         <arg name="y" value="$(arg y)" />
         <arg name="z" value="$(eval (z) + 1.5)" /> <!-- let rotor reside atop of boat -->
         <arg name="R" value="$(arg R)" />
