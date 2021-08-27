@@ -17,7 +17,7 @@
   <arg name="paused" default="true"/>
   <!-- Initial USV location and attitude-->
   <arg name="x" default="0" />
-  <arg name="y" default="0" />
+  <arg name="y" default="8" />
   <arg name="z" default="0" />
   <arg name="P" default="0" />
   <arg name="R" default="0" />
