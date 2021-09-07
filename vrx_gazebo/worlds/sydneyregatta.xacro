@@ -95,5 +95,6 @@
       <pose>533 -146.44 1.74 0 0 0</pose>
       <uri>model://blue_projectile</uri>
     </include>
+
   </xacro:macro>
 </world>
