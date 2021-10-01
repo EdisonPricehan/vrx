@@ -64,8 +64,18 @@
               -R $(arg R) -P $(arg P) -Y $(arg Y)
               -urdf -param $(arg namespace)/robot_description -model wamv"/>
 
-  <!-- Spawn rotor and auto navigator -->
-  <include file="$(find rotors_gazebo)/launch/mav_with_vi_sensor_auto_navigator.launch">
+  <!-- Spawn rotor and auto navigator with lee controller -->
+<!--  <include file="$(find rotors_gazebo)/launch/mav_with_vi_sensor_auto_navigator.launch">-->
+<!--    <arg name="x" value="$(eval (x))" /> &lt;!&ndash; let rotor reside near center_x of boat &ndash;&gt;-->
+<!--    <arg name="y" value="$(arg y)" />-->
+<!--    <arg name="z" value="$(eval (z) + 1.5)" /> &lt;!&ndash; let rotor reside atop of boat &ndash;&gt;-->
+<!--    <arg name="R" value="$(arg R)" />-->
+<!--    <arg name="P" value="$(arg P)" />-->
+<!--    <arg name="Y" value="$(arg Y)" />-->
+<!--  </include>-->
+
+  <!-- Spawn MAV auto navigator with model predictive controller -->
+  <include file="$(find waypoint_navigator)/launch/mav_sim.launch">
     <arg name="x" value="$(eval (x))" /> <!-- let rotor reside near center_x of boat -->
     <arg name="y" value="$(arg y)" />
     <arg name="z" value="$(eval (z) + 1.5)" /> <!-- let rotor reside atop of boat -->
@@ -74,4 +84,7 @@
     <arg name="Y" value="$(arg Y)" />
   </include>
 
+  <!-- Spawn ASV auto navigator -->
+  <include file="$(find vrx_gazebo)/launch/asv_autodrive.launch">
+  </include>>
 </launch>
