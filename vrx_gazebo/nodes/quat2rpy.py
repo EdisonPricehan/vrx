@@ -5,6 +5,7 @@ Node to convert from quaternions to rpy in various ROS messages
 
 import rospy
 import tf
+import sys
 from geometry_msgs.msg import Vector3
 from geometry_msgs.msg import Pose
 from geometry_msgs.msg import PoseArray
