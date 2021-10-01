@@ -20,11 +20,11 @@
 
   <!-- Initial USV location and attitude-->
   <arg name="x" default="0" />
-  <arg name="y" default="8" />
+  <arg name="y" default="-8" />
   <arg name="z" default="0.1" />
   <arg name="P" default="0" />
   <arg name="R" default="0" />
-  <arg name="Y" default="0" />
+  <arg name="Y" default="3.14" />
 
   <!-- Allow user specified thruster configurations
        H = stern trusters on each hull
@@ -75,7 +75,7 @@
 
   <!-- Spawn rotor and waypoints publisher -->
     <include file="$(find rotors_gazebo)/launch/mav_with_vi_sensor_waypoint_publisher.launch">
-          <arg name="x" value="$(eval (x) - 0.35)" /> <!-- let rotor reside near center_x of boat -->
+          <arg name="x" value="$(eval (x))" /> <!-- let rotor reside near center_x of boat -->
           <arg name="y" value="$(arg y)" />
           <arg name="z" value="$(eval (z) + 1.5)" /> <!-- let rotor reside atop of boat -->
           <arg name="R" value="$(arg R)" />
