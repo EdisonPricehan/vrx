@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="max_angle" default="$(eval pi/2)"/>
+    <arg name="thrust_config" default="H"/>
+    <arg name="namespace" default="wamv"/>
+
+    <!-- Just consider H or T thrusters -->
+    <group if="$(eval (arg('thrust_config') == 'H' or arg('thrust_config') == 'T') )">
+        <!-- Convert Twist messages (from auto navigator) to Drive messages -->
+        <node pkg="vrx_gazebo" type="twist2thrust.py" name="twist2thrust" output="screen">
+            <remap from="left_cmd" to="/$(arg namespace)/thrusters/left_thrust_cmd"/>
+            <remap from="right_cmd" to="/$(arg namespace)/thrusters/right_thrust_cmd"/>
+        </node>
+    </group>
+
+    <!-- Launch boat auto navigator -->
+    <node pkg="vrx_gazebo" type="asv_auto_navigator" name="boat_auto_navigator" output="screen" />
+
+</launch>

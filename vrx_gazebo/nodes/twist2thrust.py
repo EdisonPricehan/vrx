@@ -37,7 +37,9 @@ class Node():
             self.right_msg.data += data.angular.z
         else:
             self.left_msg.data = data.linear.x
-            self.right_msg.data = data.angular.z
+            self.right_msg.data = data.linear.x
+            self.left_msg.data -= data.angular.z
+            self.right_msg.data += data.angular.z
 
         rospy.logdebug("TX ")
         rospy.logdebug("\tleft:%f, right:%f"%(self.left_msg.data,

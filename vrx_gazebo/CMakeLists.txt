@@ -288,6 +288,15 @@ install(TARGETS perception_scoring_plugin
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
+# Target for autonomous ASV navigation
+add_executable(asv_auto_navigator src/asv_auto_navigator.cpp)
+target_link_libraries(asv_auto_navigator ${catkin_LIBRARIES})
+add_dependencies(asv_auto_navigator ${catkin_EXPORTED_TARGETS})
+install(TARGETS asv_auto_navigator
+        ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+        LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+        RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+
 # Dock base files that need to be processed with erb
 set(dock_base_erb_files
   models/dock_2016_base/model.sdf.erb
