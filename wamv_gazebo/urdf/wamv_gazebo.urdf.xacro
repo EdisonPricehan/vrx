@@ -12,6 +12,7 @@
   <xacro:arg name="vrx_sensors_enabled" default="false" />
   <xacro:arg name="pinger_enabled" default="false" />
   <xacro:arg name="ball_shooter_enabled" default="false" />
+  <xacro:arg name="ar_tag_enabled" default="false" />
   <xacro:arg name="thruster_namespace" default="thrusters/"/>
   <xacro:arg name="camera_namespace" default="cameras/"/>  
   <xacro:arg name="sensor_namespace" default="sensors/"/>
@@ -175,6 +176,13 @@
       <xacro:wamv_ball_shooter name="ball_shooter" position="0.54 0.30 1.296" orientation="0 -1.04 0"/>
 
     </xacro:if>
+
+    <xacro:if value="$(arg ar_tag_enabled)">
+      <!-- Add horizontal AR tags -->
+      <xacro:include filename="$(find wamv_gazebo)/urdf/ar_tags/hori_ar_tags.xacro" />
+      <xacro:hori_ar_tags name="hori_ar_tags" />
+    </xacro:if>
+
   </xacro:unless>
 
 </robot>

@@ -32,6 +32,8 @@
   <!-- Do we load the VRX sensor suite? -->
   <arg name="vrx_sensors_enabled" default="true" />
 
+  <arg name="ar_tag_enabled" default="true" />
+
   <!-- Start Gazebo with the world file -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="world_name"   value="$(arg world)"/>
@@ -56,6 +58,7 @@
          locked:=$(arg wamv_locked)		   
          thruster_config:=$(arg thrust_config)
          vrx_sensors_enabled:=$(arg vrx_sensors_enabled)
+         ar_tag_enabled:=$(arg ar_tag_enabled)
          namespace:=$(arg namespace) "/>
 
   <!-- Spawn model in Gazebo -->

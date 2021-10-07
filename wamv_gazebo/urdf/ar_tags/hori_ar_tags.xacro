@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="hori_ar_tags" params="name">
+
+    <!-- Include AR tag xacro -->
+    <xacro:include filename="$(find wamv_gazebo)/urdf/ar_tags/ar_tag.xacro"/>
+
+    <!-- Downward looking, X faces boat front, Y faces boat left, AR tags are equal-sized squares, added from 1st quadrant counter-clockwisely -->
+    <xacro:property name="side" value="0.27" /> <!-- Side length of AR tag -->
+    <xacro:property name="half_side" value="${side / 2}" /> <!-- Half side length of AR tag -->
+    <xacro:property name="height" value="1.3" /> <!-- Height of AR tag w.r.t boat frame -->
+    <xacro:property name="x_margin" value="0.1" /> <!-- Distance between AR tags in x direction -->
+    <xacro:property name="y_margin" value="0.1" /> <!-- Distance between AR tags in y direction -->
+    <xacro:property name="x_offset" value="-0.4" /> <!-- Overall translation of AR tags w.r.t boat frame in x direction -->
+    <xacro:property name="y_offset" value="0" /> <!-- Overall translation of AR tags w.r.t boat frame in y direction -->
+
+    <!-- Add 4 AR tags -->
+    <xacro:ar_tag id="0" side="${side}" position="${half_side + x_margin + x_offset} ${half_side + y_margin + y_offset} ${height}" orientation="0 1.57 0" />
+    <xacro:ar_tag id="1" side="${side}" position="${-half_side - x_margin + x_offset} ${half_side + y_margin + y_offset} ${height}" orientation="0 1.57 0" />
+    <xacro:ar_tag id="2" side="${side}" position="${-half_side - x_margin + x_offset} ${-half_side - y_margin + y_offset} ${height}" orientation="0 1.57 0" />
+    <xacro:ar_tag id="3" side="${side}" position="${half_side + x_margin + x_offset} ${-half_side - y_margin + y_offset} ${height}" orientation="0 1.57 0" />
+
+  </xacro:macro>
+</robot>
