@@ -89,5 +89,9 @@
 
   <!-- Spawn ASV auto navigator -->
   <include file="$(find vrx_gazebo)/launch/asv_autodrive.launch">
-  </include>>
+  </include>
+
+  <!-- Load AR tag tracker -->
+  <include file="$(find ar_track_alvar)/launch/pr2_indiv_no_kinect.launch" />
+
 </launch>
