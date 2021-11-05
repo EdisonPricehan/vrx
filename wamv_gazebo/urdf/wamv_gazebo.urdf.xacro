@@ -178,9 +178,13 @@
     </xacro:if>
 
     <xacro:if value="$(arg ar_tag_enabled)">
-      <!-- Add horizontal AR tags -->
-      <xacro:include filename="$(find wamv_gazebo)/urdf/ar_tags/hori_ar_tags.xacro" />
-      <xacro:hori_ar_tags name="hori_ar_tags" />
+      <!-- Add 4 AR tags -->
+<!--      <xacro:include filename="$(find wamv_gazebo)/urdf/ar_tags/hori_ar_tags.xacro" />-->
+<!--      <xacro:hori_ar_tags name="hori_ar_tags" />-->
+
+      <!-- Add 1 AR tag -->
+      <xacro:include filename="$(find wamv_gazebo)/urdf/ar_tags/hori_single_ar_tag.xacro" />
+      <xacro:hori_single_ar_tag name="hori_single_ar_tag" />
     </xacro:if>
 
   </xacro:unless>
