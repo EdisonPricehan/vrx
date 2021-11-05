@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro" name="wam-v-ar_tag">
-<xacro:macro name="ar_tag" params="id side:=0.27 position:='0 0 0' orientation:='0 0 0'">
+<xacro:macro name="ar_tag" params="id side:=0.5 position:='0 0 0' orientation:='0 0 0'">
 
     <!-- Add link -->
     <link name="ar_tag${id}">
@@ -19,7 +19,7 @@
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
 <!--                <box size="${side} ${side} 0.02"/>-->
-                <mesh filename="package://wamv_description/models/marker${id}/meshes/Marker${id}.dae"/>
+                <mesh filename="package://wamv_description/models/marker${id}/meshes/Marker${id}.dae" scale="1 1 1"/>
             </geometry>
         </visual>
     </link>
