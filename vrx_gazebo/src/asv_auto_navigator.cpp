@@ -14,7 +14,7 @@ public:
     void navigate() {
         ros::Rate r(5);
         while (ros::ok()) {
-            twist_.linear.x = 0.5;
+            twist_.linear.x = 0.2;
             twist_.angular.z = 0;
             pub();
             r.sleep();
