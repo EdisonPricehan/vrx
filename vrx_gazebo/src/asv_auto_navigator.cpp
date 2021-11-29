@@ -15,7 +15,7 @@ public:
         ros::Rate r(5);
         while (ros::ok()) {
             twist_.linear.x = 0.2;
-            twist_.angular.z = 0;
+            twist_.angular.z = 0.5;
             pub();
             r.sleep();
         }
