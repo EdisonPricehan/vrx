@@ -350,6 +350,9 @@
       <name>Coast Waves</name>
       <pose>0 0 0 0 0 0</pose>
       <uri>coast_waves</uri>
+      <plugin filename="gz-sim-label-system" name="gz::sim::systems::Label">
+        <label>90</label>
+      </plugin>
     </include>
 
     <include>

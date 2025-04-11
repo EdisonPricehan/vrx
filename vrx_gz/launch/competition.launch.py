@@ -43,13 +43,13 @@ def launch(context, *args, **kwargs):
         with open(config_file, 'r') as stream:
             models = Model.FromConfig(stream)
     else:
-      m = Model('wamv', 'wam-v', [-532, 162, 0, 0, 0, 1])
-      if robot_urdf and robot_urdf != '':
-          m.set_urdf(robot_urdf)
-      models.append(m)
+        m = Model('wamv', 'wam-v', [-532, 162, 0, 0, 0, 1])
+        if robot_urdf and robot_urdf != '':
+            m.set_urdf(robot_urdf)
+        models.append(m)
 
     world_name, ext = os.path.splitext(world_name)
-    launch_processes.extend(vrx_gz.launch.simulation(world_name, headless, 
+    launch_processes.extend(vrx_gz.launch.simulation(world_name, headless,
                                                      gz_paused, extra_gz_args))
     world_name_base = os.path.basename(world_name)
     launch_processes.extend(vrx_gz.launch.spawn(sim_mode, world_name_base, models, robot))
