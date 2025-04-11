@@ -1,3 +1,15 @@
+# New Features
+## Semantic (Water) Segmentation Sensor
+Added water segmentation sensor to all 3 cameras (front left, front right, middle right), with semantic label set to 90. 
+Topics (e.g., **/front_left_segmentation/colored_map**, **/front_left_camera_segmentation/labels_map**) are available in gz sim as `gz.msgs.Image`, and can be bridged to ROS2 topics by running 
+```shell
+ros2 run ros_gz_bridge parameter_bridge /front_left_segmentation/colored_map@sensor_msgs/msg/Image@gz.msgs.Image
+```
+
+[Tutorial](https://gazebosim.org/api/sensors/8/segmentationcamera_igngazebo.html?utm_source=chatgpt.com)
+
+![water_seg_gzsim](images/water_segmentation_gzsim.png)
+
 # Virtual RobotX (VRX)
 This repository is the home to the source code and software documentation for the VRX simulation environment, which supports simulation of unmanned surface vehicles in marine environments.
 * Designed in coordination with RobotX organizers, this project provides arenas and tasks similar to those featured in past and future RobotX competitions, as well as a description of the WAM-V platform.
