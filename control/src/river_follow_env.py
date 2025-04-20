@@ -1,14 +1,17 @@
 import gymnasium as gym
 from gymnasium import spaces
-import numpy as np
+
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import Image
 from std_msgs.msg import Float64
+
 from cv_bridge import CvBridge
 import cv2
+import numpy as np
 from scipy.spatial.transform import Rotation
 import subprocess
+from typing import Optional
 
 
 class WamvGazeboEnv(gym.Env):
@@ -16,7 +19,12 @@ class WamvGazeboEnv(gym.Env):
 
     metadata = {'render_modes': ['human', 'rgb_array'], 'render_fps': 30}
 
-    def __init__(self, render_mode=None):
+    def __init__(
+            self,
+            episode_max_step: int = 1000,
+            obs_timeout_sec: float = 2.,
+            render_mode: Optional[str] = None,
+    ):
         super(WamvGazeboEnv, self).__init__()
 
         # Initialize ROS2 if not already done
@@ -27,8 +35,9 @@ class WamvGazeboEnv(gym.Env):
         self.node = Node('wamv_gym_wrapper')
         self.bridge = CvBridge()
         self.render_mode = render_mode
-        self.episode_max_step = 100
-        self.episope_cnt = 0
+        self.episode_max_step: int = episode_max_step
+        self.obs_timeout_sec: float = obs_timeout_sec
+        self.episode_step: int = 0
 
         # Define action and observation space
         self.action_space = spaces.Box(
@@ -49,7 +58,6 @@ class WamvGazeboEnv(gym.Env):
 
         # Initialize state variables
         self.current_image = None
-        self.episode_done = False
         self.received_image = False
 
         # For rendering
@@ -92,7 +100,36 @@ class WamvGazeboEnv(gym.Env):
         except Exception as e:
             self.node.get_logger().error(f'Error processing image: {str(e)}')
 
-    def step(self, action):
+    def pub_thrust(self, left: float = 0., right: float = 0.) -> None:
+        if left < -1. or left > 1.:
+            self.node.get_logger().warn(f'Left thrust cmd needs to be in range [-1, 1], given {left}.')
+        if right < -1. or right > 1.:
+            self.node.get_logger().warn(f'Right thrust cmd needs to be in range [-1, 1], given {right}.')
+
+        # Publish the thrust commands
+        left_thrust = Float64()
+        left_thrust.data = float(left)
+        self.left_thrust_pub.publish(left_thrust)
+
+        right_thrust = Float64()
+        right_thrust.data = float(right)
+        self.right_thrust_pub.publish(right_thrust)
+
+    def wait_for_obs(self) -> bool:
+        """
+        Wait for specified duration until image observation is available.
+        """
+        self.received_image = False
+        start_time = self.node.get_clock().now()
+        while not self.received_image:
+            rclpy.spin_once(self.node, timeout_sec=0.1)
+            if (self.node.get_clock().now() - start_time).nanoseconds > self.obs_timeout_sec * 1e9:
+                self.node.get_logger().error('Timeout waiting for image during reset.')
+                return False
+
+        return True
+
+    def step(self, action: np.array):
         """
         Execute one time step in the environment
 
@@ -102,39 +139,24 @@ class WamvGazeboEnv(gym.Env):
         Returns:
             observation (image), reward, terminated, truncated, info
         """
-        # Publish the thrust commands
-        self.episope_cnt += 1
-        left_thrust = Float64()
-        left_thrust.data = float(action[0])
-        self.left_thrust_pub.publish(left_thrust)
+        self.episode_step += 1
 
-        right_thrust = Float64()
-        right_thrust.data = float(action[1])
-        self.right_thrust_pub.publish(right_thrust)
+        # Publish the thrust commands
+        self.pub_thrust(left=action[0], right=action[1])
+
+        terminated: bool = False
+        truncated: bool = False
 
         # Wait for new image observation
-        self.received_image = False
-        start_time = self.node.get_clock().now()
-        while not self.received_image:
-            rclpy.spin_once(self.node, timeout_sec=0.1)
-            # Timeout after 2 seconds
-            if (self.node.get_clock().now() - start_time).nanoseconds > 2e9:
-                self.node.get_logger().warn('Timeout waiting for image observation')
-                self.episode_done = True
-                break
-            if self.episope_cnt > self.episode_max_step:
-                self.episode_done = True
+        if not self.wait_for_obs():
+            terminated = True
 
-                break
+        # Max episodic steps reached
+        if self.episode_step > self.episode_max_step:
+            truncated = True
 
         # Calculate reward (implement your own reward function)
         reward = self._calculate_reward()
-
-        # Check if episode is done
-        terminated = self.episode_done
-        truncated = False  # You can set this if you have a max episode length
-        if terminated:
-            self.episode_done = False  # Reset for next episode
 
         # Additional info (optional)
         info = {
@@ -159,14 +181,11 @@ class WamvGazeboEnv(gym.Env):
         super().reset(seed=seed)
 
         # Publish zero thrust commands first
-        zero_thrust = Float64()
-        zero_thrust.data = 0.0
-        self.left_thrust_pub.publish(zero_thrust)
-        self.right_thrust_pub.publish(zero_thrust)
+        self.pub_thrust()
+
+        self.episode_step = 0
 
         # Call reset service
-
-        self.episope_cnt = 0
         x = -10
         y = -1000
         yaw = 1.14
@@ -193,14 +212,9 @@ class WamvGazeboEnv(gym.Env):
             print("Error:", e.stderr)
 
         # Wait for new image observation
-        self.received_image = False
-        start_time = self.node.get_clock().now()
-        while not self.received_image:
-            rclpy.spin_once(self.node, timeout_sec=0.1)
-            # Timeout after 2 seconds
-            if (self.node.get_clock().now() - start_time).nanoseconds > 2e9:
-                self.node.get_logger().error('Timeout waiting for image during reset')
-                raise RuntimeError('Failed to receive image observation during reset')
+        if not self.wait_for_obs():
+            raise RuntimeError('Failed to receive image observation during reset.')
+
         info = {}  # Can add reset-specific info here if needed
         return self.current_image, info
 
@@ -236,3 +250,4 @@ class WamvGazeboEnv(gym.Env):
         # Example: simple reward for moving forward
         # You'll want to replace this with your actual reward logic
         return 1.0  # Placeholder
+

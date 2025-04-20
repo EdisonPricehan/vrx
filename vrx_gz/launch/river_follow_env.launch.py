@@ -35,8 +35,8 @@ def launch(context, *args, **kwargs):
       models.append(m)
 
     world_name, ext = os.path.splitext(world_name)
-    launch_processes.extend(vrx_gz.launch.simulation(world_name, headless, 
-                                                     gz_paused, extra_gz_args))
+    launch_processes.extend(vrx_gz.launch.simulation(world_name, headless, gz_paused, extra_gz_args))
+
     world_name_base = os.path.basename(world_name)
     launch_processes.extend(vrx_gz.launch.spawn(sim_mode, world_name_base, models, robot))
 
@@ -95,4 +95,4 @@ def generate_launch_description():
             description='Additional arguments to be passed to gz sim. '),
         OpaqueFunction(function=launch),
 
-            ])
+        ])
