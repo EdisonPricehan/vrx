@@ -124,7 +124,8 @@ FOLLOWPATH_WORLDS = [
   'follow_path2',
   'follow_path3',
   'follow_path4',
-  'follow_path5'
+  'follow_path5',
+  'wabash',  # Custom world
 ]
 
 def simulation(world_name, headless=False, paused=False, extra_gz_args=''):
@@ -221,6 +222,11 @@ def competition_bridges(world_name, competition_mode=False):
     elif world_name in SCAN_DOCK_DELIVER_WORLDS:
         task_bridges = [
             vrx_gz.bridges.color_sequence_reports(),
+        ]
+    elif world_name in FOLLOWPATH_WORLDS:
+        task_bridges = [
+            vrx_gz.bridges.semantic_segmentation_label(),
+            vrx_gz.bridges.semantic_segmentation_image(),
         ]
     bridges.extend(task_bridges)
 
