@@ -4,6 +4,7 @@ from vrx_gz.bridge import Bridge, BridgeDirection
 def prefix(world_name, model_name, link_name):
     return f'/world/{world_name}/model/{model_name}/link/{link_name}/sensor'
 
+
 def magnetometer(world_name, model_name, link_name='base_link'):
     sensor_prefix = prefix(world_name, model_name, link_name)
     return Bridge(
@@ -12,6 +13,7 @@ def magnetometer(world_name, model_name, link_name='base_link'):
         gz_type='ignition.msgs.Magnetometer',
         ros_type='sensor_msgs/msg/MagneticField',
         direction=BridgeDirection.GZ_TO_ROS)
+
 
 def air_pressure(world_name, model_name, link_name='base_link'):
     sensor_prefix = prefix(world_name, model_name, link_name)
@@ -22,6 +24,7 @@ def air_pressure(world_name, model_name, link_name='base_link'):
         ros_type='sensor_msgs/msg/FluidPressure',
         direction=BridgeDirection.GZ_TO_ROS)
 
+
 def pose(model_name):
     return Bridge(
         gz_topic=f'/model/{model_name}/pose',
@@ -29,6 +32,7 @@ def pose(model_name):
         gz_type='ignition.msgs.Pose_V',
         ros_type='tf2_msgs/msg/TFMessage',
         direction=BridgeDirection.GZ_TO_ROS)
+
 
 def pose_static(model_name):
     return Bridge(
@@ -38,6 +42,7 @@ def pose_static(model_name):
         ros_type='tf2_msgs/msg/TFMessage',
         direction=BridgeDirection.GZ_TO_ROS)
 
+
 def joint_states(world_name, model_name):
     return Bridge(
         gz_topic=f'/world/{world_name}/model/{model_name}/joint_state',
@@ -45,6 +50,7 @@ def joint_states(world_name, model_name):
         gz_type='ignition.msgs.Model',
         ros_type='sensor_msgs/msg/JointState',
         direction=BridgeDirection.GZ_TO_ROS)
+
 
 def cmd_vel(model_name):
     return Bridge(
@@ -54,6 +60,7 @@ def cmd_vel(model_name):
         ros_type='geometry_msgs/msg/Twist',
         direction=BridgeDirection.ROS_TO_GZ)
 
+
 def comms_tx(model_name):
     return Bridge(
         gz_topic='/broker/msgs',
@@ -61,6 +68,7 @@ def comms_tx(model_name):
         gz_type='ignition.msgs.Dataframe',
         ros_type='ros_gz_interfaces/msg/Dataframe',
         direction=BridgeDirection.ROS_TO_GZ)
+
 
 def comms_rx(model_name):
     return Bridge(
@@ -70,6 +78,7 @@ def comms_rx(model_name):
         ros_type='ros_gz_interfaces/msg/Dataframe',
         direction=BridgeDirection.GZ_TO_ROS)
 
+
 def clock():
     return Bridge(
         gz_topic='/clock',
@@ -77,6 +86,7 @@ def clock():
         gz_type='ignition.msgs.Clock',
         ros_type='rosgraph_msgs/msg/Clock',
         direction=BridgeDirection.GZ_TO_ROS)
+
 
 def task_info():
     return Bridge(
@@ -86,6 +96,7 @@ def task_info():
         ros_type='ros_gz_interfaces/msg/ParamVec',
         direction=BridgeDirection.GZ_TO_ROS)
 
+
 def stationkeeping_goal():
     return Bridge(
         gz_topic=f'/vrx/stationkeeping/goal',
@@ -93,6 +104,7 @@ def stationkeeping_goal():
         gz_type='ignition.msgs.Pose',
         ros_type='geometry_msgs/msg/PoseStamped',
         direction=BridgeDirection.GZ_TO_ROS)
+
 
 def stationkeeping_mean_pose_error():
     return Bridge(
@@ -102,6 +114,7 @@ def stationkeeping_mean_pose_error():
         ros_type='std_msgs/msg/Float32',
         direction=BridgeDirection.GZ_TO_ROS)
 
+
 def stationkeeping_pose_error():
     return Bridge(
         gz_topic=f'/vrx/stationkeeping/pose_error',
@@ -109,6 +122,7 @@ def stationkeeping_pose_error():
         gz_type='ignition.msgs.Float',
         ros_type='std_msgs/msg/Float32',
         direction=BridgeDirection.GZ_TO_ROS)
+
 
 def acoustic_tracking_mean_pose_error():
     return Bridge(
@@ -118,6 +132,7 @@ def acoustic_tracking_mean_pose_error():
         ros_type='std_msgs/msg/Float32',
         direction=BridgeDirection.GZ_TO_ROS)
 
+
 def acoustic_tracking_pose_error():
     return Bridge(
         gz_topic=f'/vrx/acoustic_tracking/pose_error',
@@ -125,6 +140,7 @@ def acoustic_tracking_pose_error():
         gz_type='ignition.msgs.Float',
         ros_type='std_msgs/msg/Float32',
         direction=BridgeDirection.GZ_TO_ROS)
+
 
 def wayfinding_waypoints():
     return Bridge(
@@ -134,6 +150,7 @@ def wayfinding_waypoints():
         ros_type='geometry_msgs/msg/PoseArray',
         direction=BridgeDirection.GZ_TO_ROS)
 
+
 def wayfinding_mean_error():
     return Bridge(
         gz_topic=f'/vrx/wayfinding/mean_error',
@@ -141,6 +158,7 @@ def wayfinding_mean_error():
         gz_type='ignition.msgs.Float',
         ros_type='std_msgs/msg/Float32',
         direction=BridgeDirection.GZ_TO_ROS)
+
 
 def wayfinding_min_errors():
     return Bridge(
@@ -150,6 +168,7 @@ def wayfinding_min_errors():
         ros_type='ros_gz_interfaces/msg/Float32Array',
         direction=BridgeDirection.GZ_TO_ROS)
 
+
 def perception_reports():
     return Bridge(
         gz_topic=f'/vrx/perception/landmark',
@@ -157,6 +176,7 @@ def perception_reports():
         gz_type='ignition.msgs.Pose',
         ros_type='geometry_msgs/msg/PoseStamped',
         direction=BridgeDirection.ROS_TO_GZ)
+
 
 def animal_pose(topic):
     return Bridge(
@@ -166,6 +186,7 @@ def animal_pose(topic):
         ros_type='geometry_msgs/msg/PoseStamped',
         direction=BridgeDirection.GZ_TO_ROS)
 
+
 def gymkhana_blackbox_goal():
     return Bridge(
         gz_topic=f'/vrx/gymkhana_blackbox/goal',
@@ -173,6 +194,7 @@ def gymkhana_blackbox_goal():
         gz_type='ignition.msgs.Pose',
         ros_type='geometry_msgs/msg/PoseStamped',
         direction=BridgeDirection.GZ_TO_ROS)
+
 
 def gymkhana_blackbox_mean_pose_error():
     return Bridge(
@@ -182,6 +204,7 @@ def gymkhana_blackbox_mean_pose_error():
         ros_type='std_msgs/msg/Float32',
         direction=BridgeDirection.GZ_TO_ROS)
 
+
 def gymkhana_blackbox_pose_error():
     return Bridge(
         gz_topic=f'/vrx/gymkhana_blackbox/pose_error',
@@ -189,6 +212,7 @@ def gymkhana_blackbox_pose_error():
         gz_type='ignition.msgs.Float',
         ros_type='std_msgs/msg/Float32',
         direction=BridgeDirection.GZ_TO_ROS)
+
 
 def color_sequence_reports():
     return Bridge(
@@ -198,6 +222,7 @@ def color_sequence_reports():
         ros_type='ros_gz_interfaces/msg/StringVec',
         direction=BridgeDirection.ROS_TO_GZ)
 
+
 def usv_wind_speed():
     return Bridge(
         gz_topic=f'/vrx/debug/wind/speed',
@@ -205,7 +230,8 @@ def usv_wind_speed():
         gz_type='ignition.msgs.Float',
         ros_type='std_msgs/msg/Float32',
         direction=BridgeDirection.GZ_TO_ROS)
-        
+
+
 def usv_wind_direction():
     return Bridge(
         gz_topic=f'/vrx/debug/wind/direction',
@@ -213,3 +239,23 @@ def usv_wind_direction():
         gz_type='ignition.msgs.Float',
         ros_type='std_msgs/msg/Float32',
         direction=BridgeDirection.GZ_TO_ROS)
+
+
+def semantic_segmentation_label():
+    return Bridge(
+        gz_topic='/front_left_camera_segmentation/labels_map',
+        ros_topic='/front_left_camera_segmentation/labels_map',
+        gz_type='gz.msgs.Image',
+        ros_type='sensor_msgs/msg/Image',
+        direction=BridgeDirection.GZ_TO_ROS,
+    )
+
+
+def semantic_segmentation_image():
+    return Bridge(
+        gz_topic='/front_left_camera_segmentation/colored_map',
+        ros_topic='/front_left_camera_segmentation/colored_map',
+        gz_type='gz.msgs.Image',
+        ros_type='sensor_msgs/msg/Image',
+        direction=BridgeDirection.GZ_TO_ROS,
+    )
