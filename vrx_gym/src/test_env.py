@@ -20,7 +20,7 @@ if __name__ == '__main__':
 
         while not done:
             # Example: simple forward motion with slight turn
-            action = np.array([800, 700])  # left, right thrust
+            action = np.array([0.4, 0.2])  # left, right thrust
             observation, reward, terminated, truncated, info = env.step(action)
             done = terminated or truncated
             episode_reward += reward
