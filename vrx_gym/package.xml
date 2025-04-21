@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>vrx_gym</name>
+  <version>0.0.0</version>
+  <description>Gymnasium Environment of VRX for Vision-driven River Following of ASV</description>
+  <maintainer email="lijianwen2016@gmail.com">jianwen</maintainer>
+  <maintainer email="princehan920453024@gmail.com">edison</maintainer>
+  <license>MIT</license>
+
+  <test_depend>ament_copyright</test_depend>
+  <test_depend>ament_flake8</test_depend>
+  <test_depend>ament_pep257</test_depend>
+  <test_depend>python3-pytest</test_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>
