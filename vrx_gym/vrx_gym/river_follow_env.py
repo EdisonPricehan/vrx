@@ -23,10 +23,20 @@ class WamvGazeboEnv(gym.Env):
             self,
             img_height: int = 480,
             img_width: int = 640,
+            incremental_action: bool = True,
             episode_max_step: int = 1000,
             obs_timeout_sec: float = 2.,
             render_mode: Optional[str] = None,
     ):
+        """
+        Args:
+            img_height: Desired image height from onboard camera.
+            img_width: Desired image width from onboard camera.
+            incremental_action: Whether accept delta thrust or absolute thrust in step function.
+            episode_max_step: Maximum number of steps in an episode.
+            obs_timeout_sec: Timeout seconds waiting for camera topics.
+            render_mode: Render mode, {'rgb_array', 'human'}.
+        """
         super(WamvGazeboEnv, self).__init__()
 
         # Initialize ROS2 if not already done
@@ -42,6 +52,7 @@ class WamvGazeboEnv(gym.Env):
         self.episode_step: int = 0
         self.img_height: int = img_height
         self.img_width: int = img_width
+        self.incremental_action: bool = incremental_action
 
         # Define action and observation space
         self.action_space = spaces.Box(
@@ -74,6 +85,7 @@ class WamvGazeboEnv(gym.Env):
         self.received_image: bool = False
         self.current_mask: Optional[np.ndarray] = None
         self.receive_mask: bool = False
+        self.current_action: np.array = np.array([0., 0.])
 
         # For rendering
         if self.render_mode == 'human':
@@ -187,9 +199,17 @@ class WamvGazeboEnv(gym.Env):
         """
         self.episode_step += 1
 
-        # Scale action to thrust range of wamv
         assert np.all(np.abs(action) <= 1), f'Agent action should range in [-1, 1], given {action}.'
+
         a = action.copy()
+
+        # Increment the action instead of setting absolute values
+        if self.incremental_action:
+            a += self.current_action
+            a = np.clip(a, a_min=-1., a_max=1.)
+            np.copyto(self.current_action, a)
+
+        # Scale action to thrust range of wamv
         a *= 1000
 
         # Publish the thrust commands
@@ -237,7 +257,7 @@ class WamvGazeboEnv(gym.Env):
 
         # Publish zero thrust commands first
         self.pub_thrust()
-
+        self.current_action = np.array([0., 0.])
         self.episode_step = 0
 
         # Call reset service
@@ -283,6 +303,8 @@ class WamvGazeboEnv(gym.Env):
                 img_mask = cv2.hconcat([self.current_image, mask_3ch])
                 cv2.imshow('WAMV Camera View', img_mask)
                 cv2.waitKey(1)
+            else:
+                self.node.get_logger().warn('Waiting for both rgb and mask to be available to render.')
         else:
             self.node.get_logger().warn(f'Unrecognized render mode {self.render_mode}.')
 
