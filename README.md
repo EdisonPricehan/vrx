@@ -1,4 +1,15 @@
 # New Features
+
+## Gymnasium Wrapper (River Following)
+After colcon build, sourcing, the Wabash environment (with 1 wam-v boat) can be launched by
+```bash
+ros2 launch vrx_gym river_follow_env.launch.py
+```
+An example usage of the gym wrapper of **wam-v in Wabash** is in [test_env.py](vrx_gym/vrx_gym/test_env.py).
+The observation of the wam-v is a tuple of the RGB image and water semantic mask.
+![img_mask](images/vrx_gym_rgb_mask.gif)
+
+
 ## Semantic (Water) Segmentation Sensor
 Added water segmentation sensor to all 3 cameras (front left, front right, middle right), with semantic label set to 90. 
 Topics (e.g., **/front_left_segmentation/colored_map**, **/front_left_camera_segmentation/labels_map**) are available in gz sim as `gz.msgs.Image`, and can be bridged to ROS2 topics by running 
@@ -9,6 +20,7 @@ ros2 run ros_gz_bridge parameter_bridge /front_left_segmentation/colored_map@sen
 [Tutorial](https://gazebosim.org/api/sensors/8/segmentationcamera_igngazebo.html?utm_source=chatgpt.com)
 
 ![water_seg_gzsim](images/water_segmentation_gzsim.png)
+
 
 # Virtual RobotX (VRX)
 This repository is the home to the source code and software documentation for the VRX simulation environment, which supports simulation of unmanned surface vehicles in marine environments.
