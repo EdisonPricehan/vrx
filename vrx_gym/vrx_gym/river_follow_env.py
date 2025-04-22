@@ -47,7 +47,7 @@ class WamvGazeboEnv(gym.Env):
         self.action_space = spaces.Box(
             low=np.array([-1.0, -1.0]),  # Normalized thrust values [-1, 1]
             high=np.array([1.0, 1.0]),
-            dtype=np.float32)
+            dtype=np.float64)
 
         # Observation space is the camera image
         # Assuming 640x480 RGB image
